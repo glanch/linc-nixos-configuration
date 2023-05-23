@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
   # Enable flakes
@@ -99,23 +100,41 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Enable virtual box
+  virtualisation.virtualbox.host.enable = true;
+  # Enable kvm
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  users.extraGroups.vboxusers.members = [ "christopher" ];
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.christopher = {
     isNormalUser = true;
     description = "Christopher";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "vboxusers" "libvirtd" ];
     packages = with pkgs; [
       firefox
       vim
       mixxx
       minecraft
       prismlauncher
-      virtualbox
-      vscodium
+      #vscodium
+      #git
+      #nixfmt
+      rnix-lsp
+      clang-tools_15
+      virt-manager
+      freecad
+      chromium
+      mattermost-desktop
+      direnv
     ];
+    #shell = pkgs.zsh;
   };
-
-  home-manager.users.christopher = { pkgs, ... }: {
+  programs.git.enable = true;
+  programs.git.package = pkgs.gitFull;
+  programs.ausweisapp.enable = true;
+  home-manager.users.christopher = { ... }: {
     home = {
       stateVersion = "22.05";
       packages = [ ];
@@ -129,9 +148,20 @@
         theme = "robbyrussell";
       };
     };
-
+    programs.vscode = {
+      enable = true;
+      package = pkgs.vscode;
+      extensions =
+        with pkgs.vscode-extensions; [
+          #     matklad.rust-analyzer
+          #    ms-python.python
+          #ms-vscode.cpptools
+          #llvm-vs-code-extensions.vscode-clangd
+          #ms-vscode-remote.remote-ssh # won't work with vscodium
+        ];
+    };
     programs.bash.enable = false;
-  }; 
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -150,7 +180,7 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
