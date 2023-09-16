@@ -3,12 +3,13 @@
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
   inputs.agenix.url = "github:ryantm/agenix";
+  inputs.hyprland.url = "github:hyprwm/Hyprland";
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, agenix, ... }@attrs: {
+  outputs = { self, nixpkgs, home-manager, deploy-rs, agenix, hyprland, ... }@attrs: {
     nixosConfigurations."linc" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = attrs;
-      modules = [ ./configuration.nix home-manager.nixosModules.home-manager ];
+      modules = [ ./configuration.nix home-manager.nixosModules.home-manager  ];
     };
     deploy.nodes.linc = {
       hostname = "linc.fritz.box";
