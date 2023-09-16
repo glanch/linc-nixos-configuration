@@ -346,12 +346,8 @@
       enable = true;
       systemd.enable = true;
       style = ''
-                * {
-                  font-size: 13pt;
-                  font-family: 'Agave Nerd Font Mono';
-                }
-
-                * {
+        
+        * {
             /* `otf-font-awesome` is required to be installed for icons */
             border: #333333;
             border-radius: 10px;
@@ -360,7 +356,11 @@
             font-size: 16px;
             /* background-color: #2B3031; */
             background-color: rgba(43, 48, 59, .0);
-           }
+        }
+        
+        tooltip * {
+            background-color: black;
+        }
 
         window#waybar {
             /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
