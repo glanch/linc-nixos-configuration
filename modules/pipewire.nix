@@ -4,7 +4,6 @@ let
   cfg = config.custom.pipewire;
 in
 {
-  # Declare what settings a user of this "hello.nix" module CAN SET.
   options.custom.pipewire = {
     enable = mkEnableOption "Enable pipewire and necessary programs";
   };
