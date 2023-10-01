@@ -211,7 +211,7 @@ in
 
       programs.waybar = {
         enable = true;
-        systemd.enable = true;
+        systemd.enable = false;
         style = ''
         * {
           /* `otf-font-awesome` is required to be installed for icons */
